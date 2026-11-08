@@ -2,14 +2,16 @@
 
 Small, useful tools that run as sandboxed WASM modules in [hyperb](https://github.com/hypereffect/hyperb) renderers. They need no server: each one runs locally inside the renderer.
 
-| App | What it does |
-| --- | --- |
-| [`qr`](wasm-apps/qr.wasm) | Generate QR codes |
-| [`textutils`](wasm-apps/textutils.wasm) | A pocket knife of small tools for text, data, numbers and more |
-| [`worldclock`](wasm-apps/worldclock.wasm) | Live clocks across time zones, and a time converter |
-| [`finance`](wasm-apps/finance.wasm) | An RPN financial calculator |
-| [`billsplit`](wasm-apps/billsplit.wasm) | Split a bill |
-| [`wordle`](wasm-apps/wordle.wasm) | Guess the five-letter word in six tries |
+The modules are published at <https://hypereffect.github.io/hyperwasmtools/>, where you can download each one or preview it in the [hyperb web client](https://hypereffect.github.io/hyperb/).
+
+| App                                       | What it does                                                   |
+| ---                                       | ---                                                            |
+| [`qr`](wasm-apps/qr.wasm)                 | Generate QR codes                                              |
+| [`textutils`](wasm-apps/textutils.wasm)   | A pocket knife of small tools for text, data, numbers and more |
+| [`worldclock`](wasm-apps/worldclock.wasm) | Live clocks across time zones, and a time converter            |
+| [`finance`](wasm-apps/finance.wasm)       | An RPN financial calculator                                    |
+| [`billsplit`](wasm-apps/billsplit.wasm)   | Split a bill                                                   |
+| [`wordle`](wasm-apps/wordle.wasm)         | Guess the five-letter word in six tries                        |
 
 ## Usage
 

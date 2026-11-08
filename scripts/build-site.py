@@ -9,6 +9,9 @@ import json
 import pathlib
 import shutil
 import sys
+from urllib.parse import urlsplit
+
+HYPERB_WEB_CLIENT = "https://hypereffect.github.io/hyperb/"
 
 DESCRIPTIONS = {
     "billsplit": "Split a bill",
@@ -18,6 +21,12 @@ DESCRIPTIONS = {
     "wordle": "Guess the five-letter word in six tries",
     "worldclock": "Live clocks across time zones, and a time converter",
 }
+
+
+def hyperb_address(url: str) -> str:
+    """The hyperb:// form of an HTTP(S) URL, as renderers accept in links."""
+    parsed = urlsplit(url)
+    return f"hyperb://{parsed.netloc}{parsed.path}"
 
 
 def main() -> int:
@@ -41,12 +50,14 @@ def main() -> int:
     for module in modules:
         name = module.stem
         shutil.copy2(module, published_dir / module.name)
+        url = f"{base_url}/wasm-apps/{module.name}"
         apps.append(
             {
                 "name": name,
                 "description": DESCRIPTIONS.get(name, ""),
-                "url": f"{base_url}/wasm-apps/{module.name}",
+                "url": url,
                 "wasm": f"wasm-apps/{module.name}",
+                "preview": f"{HYPERB_WEB_CLIENT}?url={hyperb_address(url)}",
             }
         )
 
@@ -60,6 +71,7 @@ def main() -> int:
           <td><a href="{html.escape(app["wasm"])}"><strong>{html.escape(app["name"])}</strong></a></td>
           <td>{html.escape(app["description"])}</td>
           <td><a href="{html.escape(app["url"])}">download</a></td>
+          <td><a href="{html.escape(app["preview"])}">preview in the hyperb web client</a></td>
         </tr>"""
         for app in apps
     )
@@ -97,12 +109,14 @@ def main() -> int:
   </p>
   <p>
     Open a module with any hyperb renderer, for example
-    <code>hyperb-desktop &lt;url&gt;</code>. A machine-readable list of the
-    modules is available in <a href="apps.json">apps.json</a>.
+    <code>hyperb-desktop &lt;url&gt;</code>, or preview it in the
+    <a href="https://hypereffect.github.io/hyperb/">hyperb web client</a>.
+    A machine-readable list of the modules is available in
+    <a href="apps.json">apps.json</a>.
   </p>
   <table>
     <thead>
-      <tr><th>App</th><th>Description</th><th>Module</th></tr>
+      <tr><th>App</th><th>Description</th><th>Download</th><th>Preview</th></tr>
     </thead>
     <tbody>
 {rows}
