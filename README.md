@@ -9,6 +9,7 @@ Small, useful tools that run as sandboxed WASM modules in [hyperb](https://githu
 | [`worldclock`](wasm-apps/worldclock.wasm) | Live clocks across time zones, and a time converter |
 | [`finance`](wasm-apps/finance.wasm) | An RPN financial calculator |
 | [`billsplit`](wasm-apps/billsplit.wasm) | Split a bill |
+| [`wordle`](wasm-apps/wordle.wasm) | Guess the five-letter word in six tries |
 
 ## Usage
 

@@ -7,6 +7,7 @@ pub mod finance;
 pub mod img;
 pub mod qr;
 pub mod textutils;
+pub mod wordle;
 pub mod worldclock;
 
 /// The wasm module ABI the renderer loads (`SPEC.md`, section 4). A wasm build

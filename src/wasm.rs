@@ -31,6 +31,7 @@ select_app! {
     "finance" => crate::finance::Finance,
     "qr" => crate::qr::Qr,
     "textutils" => crate::textutils::TextUtils,
+    "wordle" => crate::wordle::Wordle,
     "worldclock" => crate::worldclock::WorldClock,
 }
 
