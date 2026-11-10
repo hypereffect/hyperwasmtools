@@ -384,7 +384,7 @@ impl WorldClock {
                     .parent(id("place"))
                     .variant("caption")
                     .visible(cel(format!("s.conv.on && {s}.conv != ''")))
-                    .text(cel(format!("'⇄ ' + {s}.conv"))),
+                    .text(cel(format!("{s}.conv != '' ? '⇄ ' + {s}.conv : ''"))),
             );
             els.push(ui::row(id("right")).parent(&row).gap("medium").wrap(true));
             els.push(
@@ -467,7 +467,16 @@ impl WorldClock {
             } else {
                 "Type a time such as 9:30, 1430 or 2pm."
             };
-            out.signal(json!({"conv": {"on": false, "error": error, "summary": ""}}));
+            // The clocks' converter text is always present, empty while the
+            // converter is off, so the elements for it can be drawn at once.
+            let mut clocks = Map::new();
+            for &i in &self.clocks {
+                clocks.insert(format!("z{i}"), json!({"conv": ""}));
+            }
+            out.signal(json!({
+                "conv": {"on": false, "error": error, "summary": ""},
+                "clocks": clocks,
+            }));
             return;
         };
         let from = &ZONES[self.conv_from];
@@ -895,6 +904,14 @@ mod tests {
         assert_eq!(l.client.value("now.time"), Some(&json!("15:30:15")));
         assert_eq!(l.client.value("now.date"), Some(&json!("Tue 3 Nov 2026")));
         assert_eq!(l.client.value("now.zone"), Some(&json!("Paris · UTC+1")));
+        // The converter is off, but the captions of the clocks still resolve:
+        // their signal is there and empty, so no expression fails.
+        let kolkata = find("Asia/Kolkata").unwrap();
+        assert_eq!(
+            l.client.attr(&format!("conv_{kolkata}"), "text"),
+            Some(json!(""))
+        );
+        assert!(l.client.take_diagnostics().is_empty());
         let ny = find("America/New_York").unwrap();
         let tokyo = find("Asia/Tokyo").unwrap();
         assert_eq!(
